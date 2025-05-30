@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "사용자", description = "코레일 티켓 예매 관련 API")
 public class TicketController {
     private final TicketService ticketService;
-
+    @Autowired
+    private EmailService emailService;
     @Autowired
     public TicketController(TicketService ticketService) {
         this.ticketService = ticketService;
@@ -50,11 +52,25 @@ public class TicketController {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime selectedDateTime = LocalDateTime.parse(date.getYear() + "-" + selMonth + "-" + selDay + " " + String.format("%02d", startHour) + ":" + String.format("%02d", startMin), formatter);
         LocalDateTime endDateTime = LocalDateTime.parse(date.getYear() + "-" + selMonth + "-" + selDay + " " + String.format("%02d", endHour) + ":" + String.format("%02d", endMin), formatter);
+//        LocalTime endTime = endDateTime.toLocalTime();  // -> 09:00
+//        LocalTime arrTime = LocalTime.parse("10:38");
+//
+//
+        String recipientEmail = "bsj805@naver.com"; // Replace with the actual recipient email
+        String subject = "코레일 기차 예약 시작";
+        String body = "코레일 기차 예약이 시작되었습니다.\n\n" +
+                "출발역: " + txtGoStart + "\n" +
+                "도착역: " + txtGoEnd + "\n" +
+                "선택 월: " + selMonth + "\n" +
+                "선택 일: " + selDay + "\n" +
+                "시작 시간: " + String.format("%02d", startHour)  + "\n" ;
 
+        emailService.sendSimpleEmail(recipientEmail, subject, body);
         if (selectedDateTime.isBefore(LocalDateTime.now()) || endDateTime.isBefore(LocalDateTime.now())) {
             return ResponseEntity.badRequest().body("선택한 일시가 현재보다 이전입니다.");
         }
 
         return ResponseEntity.ok(ticketService.reserveTicket(txtMember, txtPwd, txtGoStart, txtGoEnd, selMonth, selDay, startHour, startMin, endHour, endMin));
+
     }
 }

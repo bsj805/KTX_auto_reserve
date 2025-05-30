@@ -1,0 +1,15 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: abcdef@gmail.com # Your Gmail address
+    password: abcdefghijdlmnab # # The 16-character app password you generated # https://blogan99.tistory.com/101 참고해서 생성하기.
+    # 1. 구글 Gmail SMTP 사용 위한 설정. 구글 사이트 > 프로필 클릭 > Google 계정 관리. 검색창에 > "앱 비밀번호" 검색 · 2. 코레일_예약후_메일보내기어플 같은 이름 설정 3. app password를 공백없이 이어붙인다 16자리.
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true # Recommended for better security
+          #debug: true # Uncomment for debugging email issues
