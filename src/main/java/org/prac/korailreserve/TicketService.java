@@ -17,6 +17,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.Locale;
@@ -29,6 +30,10 @@ public class TicketService {
 
     @Autowired
     private EmailService emailService;
+
+    @Value("${app.email.recipient}") // Matches the path in application.yml
+    private String defaultRecipientEmail; // Or just 'recipientEmail' if you prefer
+
 
     public String reserveTicket(String txtMember, String txtPwd, String txtGoStart, String txtGoEnd, String selMonth,
                                 String selDay, Integer startHour, Integer startMin, Integer endHour, Integer endMin) {
@@ -292,7 +297,7 @@ public class TicketService {
             } else {
                 isTicketFound = true;
                 // Send email when the task is finished
-                String recipientEmail = "bsj805@naver.com"; // Replace with the actual recipient email
+
                 String subject = "코레일 기차 예약 완료";
                 String body = "코레일 기차 예약이 완료되었습니다.\n\n" +
                         "출발역: " + txtGoStart + "\n" +
@@ -302,7 +307,7 @@ public class TicketService {
                         "시작 시간: " + String.format("%02d", startHour)  + "\n" +
                         "종료 시간: " + String.format("%02d", endTime.getHour()) + ":" + String.format("%02d", endTime.getMinute()) +
                         "https://www.korail.com/ 접속해서 결제해주세요"+ "\n\n";
-                emailService.sendSimpleEmail(recipientEmail, subject, body);
+                emailService.sendSimpleEmail(defaultRecipientEmail, subject, body);
             }
         }
         return isTicketFound;

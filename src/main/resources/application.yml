@@ -13,3 +13,7 @@ spring:
             enable: true
             required: true # Recommended for better security
           #debug: true # Uncomment for debugging email issues
+
+app:
+  email:
+    recipient: abcdef@naver.com # 이메일 받을사람

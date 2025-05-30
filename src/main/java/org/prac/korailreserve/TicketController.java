@@ -13,6 +13,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +25,10 @@ public class TicketController {
     private final TicketService ticketService;
     @Autowired
     private EmailService emailService;
+
+    @Value("${app.email.recipient}") // Matches the path in application.yml
+    private String defaultRecipientEmail; // Or just 'recipientEmail' if you prefer
+
     @Autowired
     public TicketController(TicketService ticketService) {
         this.ticketService = ticketService;
@@ -56,7 +61,7 @@ public class TicketController {
 //        LocalTime arrTime = LocalTime.parse("10:38");
 //
 //
-        String recipientEmail = "bsj805@naver.com"; // Replace with the actual recipient email
+
         String subject = "코레일 기차 예약 시작";
         String body = "코레일 기차 예약이 시작되었습니다.\n\n" +
                 "출발역: " + txtGoStart + "\n" +
@@ -65,7 +70,7 @@ public class TicketController {
                 "선택 일: " + selDay + "\n" +
                 "시작 시간: " + String.format("%02d", startHour)  + "\n" ;
 
-        emailService.sendSimpleEmail(recipientEmail, subject, body);
+        emailService.sendSimpleEmail(defaultRecipientEmail, subject, body);
         if (selectedDateTime.isBefore(LocalDateTime.now()) || endDateTime.isBefore(LocalDateTime.now())) {
             return ResponseEntity.badRequest().body("선택한 일시가 현재보다 이전입니다.");
         }
