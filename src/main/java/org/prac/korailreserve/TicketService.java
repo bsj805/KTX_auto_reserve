@@ -94,6 +94,18 @@ public class TicketService {
             System.out.println("창닫기 버튼이 나타나지 않았습니다. 건너뜁니다.");
         }
     }
+    private void close_ok_window(WebDriver driver) {
+        // Close the popup window if it appears
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(500));
+        try {
+            WebElement closeButton = wait.until(ExpectedConditions.elementToBeClickable(
+                    By.cssSelector("button.btn_bn-blue.btn_pop-close")
+            ));
+            closeButton.click();
+        } catch (TimeoutException e) {
+            System.out.println("확인 버튼이 나타나지 않았습니다. 건너뜁니다.");
+        }
+    }
     // Login process
     private void loginUser(WebDriver driver, String txtMember, String txtPwd) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -285,7 +297,7 @@ public class TicketService {
 
             if (!isTicketFound) {
                 try {
-                    sleep(5000);
+                    sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -401,6 +413,7 @@ public class TicketService {
     private void handleReservationModal(WebDriver driver, WebDriverWait wait) {
         WebElement reserveButton = driver.findElement(By.xpath("//div[@class='ticket_reserv_wrap']//button[contains(@class, 'reservbtn')]"));
         reserveButton.click();
+        close_ok_window(driver);
     }
 
     // Find btn to reserve
