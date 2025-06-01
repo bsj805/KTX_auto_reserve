@@ -36,3 +36,14 @@ __&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;It is your responsibility to comply with the 
 ![img_1.png](img_1.png)
 
 6. 예약을 성공하면, 예약번호와 함께 예약이 완료되었다는 메일이 옵니다. 
+
+
+
+### 개발자 참고
+
+WINDOW POWERSHELL에서 ./gradlew.bat clean bootJar 할때 아래처럼 JAVA_HOME 세팅해주기
+
+```
+$env:JAVA_HOME = "C:\Users\USER\Documents\works\KTX_auto_reserve\jdk"
+$env:PATH = "$env:JAVA_HOME\bin;" + $env:PATH
+```

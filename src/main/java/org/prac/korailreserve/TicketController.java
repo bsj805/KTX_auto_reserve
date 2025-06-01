@@ -41,23 +41,24 @@ public class TicketController {
                     @ApiResponse(description = "예매 실패", responseCode = "400", content = @Content)
             })
     public ResponseEntity<String> korail(
-            @Parameter(description = "사용자 ID") @RequestParam String txtMember,
+            @Parameter(description = "KORAIL 회원번호") @RequestParam String txtMember,
             @Parameter(description = "비밀번호") @RequestParam String txtPwd,
-            @Parameter(description = "출발역") @RequestParam String txtGoStart,
-            @Parameter(description = "도착역") @RequestParam String txtGoEnd,
-            @Parameter(description = "선택 월") @RequestParam String selMonth,
-            @Parameter(description = "선택 일") @RequestParam String selDay,
-            @Parameter(description = "시작 시간(시)") @RequestParam Integer startHour,
-            @Parameter(description = "시작 시간(분)") @RequestParam Integer startMin,
-            @Parameter(description = "종료 시간(시)") @RequestParam Integer endHour,
-            @Parameter(description = "종료 시간(분)") @RequestParam Integer endMin) {
+            @Parameter(description = "출발역 (EX. 평택)") @RequestParam String txtGoStart,
+            @Parameter(description = "도착역 (EX. 서울)") @RequestParam String txtGoEnd,
+            @Parameter(description = "선택 월(01~12)") @RequestParam String selMonth,
+            @Parameter(description = "선택 일(01~31)") @RequestParam String selDay,
+            @Parameter(description = "기차 출발 시간(시)") @RequestParam Integer startHour,
+            @Parameter(description = "기차 출발 시간(분)") @RequestParam Integer startMin,
+            @Parameter(description = "기차 도착 시간(시)") @RequestParam Integer endHour,
+            @Parameter(description = "기차 도착 시간(분)") @RequestParam Integer endMin) {
 
         // Set date formatting
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime selectedDateTime = LocalDateTime.parse(date.getYear() + "-" + selMonth + "-" + selDay + " " + String.format("%02d", startHour) + ":" + String.format("%02d", startMin), formatter);
-        LocalDateTime endDateTime = LocalDateTime.parse(date.getYear() + "-" + selMonth + "-" + selDay + " " + String.format("%02d", endHour) + ":" + String.format("%02d", endMin), formatter);
-//        LocalTime endTime = endDateTime.toLocalTime();  // -> 09:00
+        LocalDateTime endDateTime = LocalDateTime.parse(date.getYear() + "-" + selMonth + "-" + selDay + " " + String.format("%02d", endHour) + ":" + String.format("%02d", endMin), formatter);//        LocalTime endTime = endDateTime.toLocalTime();  // -> 09:00
+        selMonth = String.format("%02d", Integer.parseInt(selMonth));
+        selDay = String.format("%02d", Integer.parseInt(selDay));
 //        LocalTime arrTime = LocalTime.parse("10:38");
 //
 //
