@@ -46,7 +46,7 @@ public class TicketController {
             @Parameter(description = "출발역 (EX. 평택)") @RequestParam String txtGoStart,
             @Parameter(description = "도착역 (EX. 서울)") @RequestParam String txtGoEnd,
             @Parameter(description = "선택 월(01~12)") @RequestParam String selMonth,
-            @Parameter(description = "선택 일(1~31) (01처럼 0붙이지 않도록 주의)") @RequestParam String selDay,
+            @Parameter(description = "선택 일(01~31) (01처럼 0붙이기)") @RequestParam String selDay,
             @Parameter(description = "기차 출발 시간(시)") @RequestParam Integer startHour,
             @Parameter(description = "기차 출발 시간(분)") @RequestParam Integer startMin,
             @Parameter(description = "기차 도착 시간(시)") @RequestParam Integer endHour,
@@ -54,10 +54,12 @@ public class TicketController {
 
         // Set date formatting
         LocalDate date = LocalDate.now();
+        selMonth = String.format("%02d", Integer.parseInt(selMonth));
+        selDay = String.format("%02d", Integer.parseInt(selDay));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         LocalDateTime selectedDateTime = LocalDateTime.parse(date.getYear() + "-" + selMonth + "-" + selDay + " " + String.format("%02d", startHour) + ":" + String.format("%02d", startMin), formatter);
         LocalDateTime endDateTime = LocalDateTime.parse(date.getYear() + "-" + selMonth + "-" + selDay + " " + String.format("%02d", endHour) + ":" + String.format("%02d", endMin), formatter);//        LocalTime endTime = endDateTime.toLocalTime();  // -> 09:00
-        selMonth = String.format("%02d", Integer.parseInt(selMonth));
+
 //        LocalTime arrTime = LocalTime.parse("10:38");
 //
 //

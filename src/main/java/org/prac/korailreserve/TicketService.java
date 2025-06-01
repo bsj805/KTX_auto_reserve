@@ -54,12 +54,12 @@ public class TicketService {
 
             boolean ticketReserved = checkAndReserveTicket(driver, txtGoStart, txtGoEnd, selMonth, selDay, startHour, startTime,
                     endTime);
-//
-//            if (ticketReserved) {
-//                result.append("Ticket Reserved !");
-//            } else {
-//                result.append("No more pages. Ticket not found.");
-//            }
+
+            if (ticketReserved) {
+                result.append("Ticket Reserved !");
+            } else {
+                result.append("No more pages. Ticket not found.");
+            }
         } catch (Exception e) {
             result.append("Error fetching data: ").append(e.getMessage());
         }
@@ -291,8 +291,8 @@ public class TicketService {
 //        setTicketSearchCriteria(driver, wait, txtGoStart, txtGoEnd, startHour, selMonth, selDay);
 //        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".btn_inq a"))).click();
         //refresh
-        isTicketFound = findAndReserveAvailableTicket(driver, startTime, endTime);
-        driver.navigate().refresh();
+//        isTicketFound = findAndReserveAvailableTicket(driver, startTime, endTime);
+//        driver.navigate().refresh();
         wait.until(ExpectedConditions.urlContains("https://www.korail.com/ticket/search/list"));
         close_window(driver);
 
@@ -324,7 +324,7 @@ public class TicketService {
                         "선택 일: " + selDay + "\n" +
                         "시작 시간: " + String.format("%02d", startHour)  + "\n" +
                         "종료 시간: " + String.format("%02d", endTime.getHour()) + ":" + String.format("%02d", endTime.getMinute()) +
-                        "https://www.korail.com/ 접속해서 결제해주세요"+ "\n\n";
+                        "\nhttps://www.korail.com/ticket/reservation/detail 접속해서 결제해주세요"+ "\n\n";
                 emailService.sendSimpleEmail(defaultRecipientEmail, subject, body);
             }
         }
