@@ -108,7 +108,7 @@ public class TicketService {
     }
     // Login process
     private void loginUser(WebDriver driver, String txtMember, String txtPwd) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
         driver.get("https://www.korail.com/ticket/login");
 
@@ -138,8 +138,6 @@ public class TicketService {
 
     }
     public void selectHour(WebDriver driver, WebDriverWait wait, String hourText) throws InterruptedException {
-        // Define the next button
-        By nextButtonBy = By.cssSelector(".slick-next");
 
         // XPath for visible (active) slides
         String hourXPath = "//a[normalize-space(text())='" + hourText + "']";
@@ -182,7 +180,7 @@ public class TicketService {
     // To reserve Page
     private void navigateToReservationPage(WebDriver driver, String txtGoStart, String txtGoEnd, String selMonth,
                                            String selDay, String startHour, LocalTime startTime, LocalTime endTime) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         close_window(driver);
         // 2. Click 출발역 선택 버튼
         WebElement btnStart = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".btn_start")));
@@ -276,7 +274,7 @@ public class TicketService {
     // Ticket Reserve process
     private boolean checkAndReserveTicket(WebDriver driver, String txtGoStart, String txtGoEnd, String selMonth,
                                           String selDay, Integer startHour, LocalTime startTime, LocalTime endTime) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 
         close_window(driver);
 
