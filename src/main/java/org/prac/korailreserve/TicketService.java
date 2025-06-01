@@ -222,9 +222,17 @@ public class TicketService {
             WebElement nextButton = driver.findElement(By.cssSelector("button.slick-next"));
             nextButton.click();
         }
+        String findDay;
+
+        if (selDay.startsWith("0") && selDay.length() > 1) {
+            findDay = selDay.substring(1);  // 앞의 0 떼기
+        } else {
+            findDay = selDay;  // 그대로 사용
+        }
+
         // XPath to locate the <a> tag inside a <td> containing <span class="day">31</span>
         WebElement dayElement = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//td[a/span[@class='day' and text()='" + selDay + "']]//a")
+                By.xpath("//td[a/span[@class='day' and text()='" + findDay + "']]//a")
         ));
 
 // Click it
